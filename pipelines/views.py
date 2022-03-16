@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def pipelines_view(request):
-  pipeline_objs = Pipeline.objects.all()
+  pipeline_objs = Pipeline.objects.filter(user__pk=request.user.id)
   context = {
     "pipeline_objs": pipeline_objs,
     "user": request.user
@@ -32,7 +32,7 @@ def pipeline_create_view(request):
   
   if form.is_valid():
     name = form.cleaned_data.get("name")
-    pipeline_obj = Pipeline.objects.create(name=name)
+    pipeline_obj = Pipeline.objects.create(name=name, user=request.user)
     return redirect(pipeline_detail_view, pipeline_obj.id)
 
   context = {

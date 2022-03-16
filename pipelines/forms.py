@@ -8,6 +8,8 @@ class PipelineForm(forms.Form):
   def clean(self):
     data = self.cleaned_data
     name = data.get("name")
+
+    # Has to limited to a particular user and not global
     qs = Pipeline.objects.filter(name__icontains=name)
     if qs.exists():
       self.add_error("name", f"{name} is already taken. Please pick another name.")

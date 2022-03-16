@@ -2,6 +2,7 @@
 
 {% block content %}
   <h1>{{ object.name }}</h1>
+  <h1>User: {{ object.user.username }}</h1>
   <h3>This is the content of the pipeline.</h3>
   <a href="/pipeline/delete/{{object.id}}">Delete pipeline</a>
 {% endblock %}

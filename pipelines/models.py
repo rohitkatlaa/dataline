@@ -6,4 +6,5 @@ from django.db import models
 
 
 class Pipeline(models.Model):
+  user = models.ForeignKey("auth.User", blank=True, null=True, on_delete=models.SET_NULL)
   name = models.TextField()
