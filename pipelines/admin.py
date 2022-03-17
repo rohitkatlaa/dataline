@@ -1,3 +1,5 @@
 from django.contrib import admin
+from pipelines.models import Pipeline, Operation
 
-# Register your models here.
+admin.site.register(Pipeline)
+admin.site.register(Operation)
