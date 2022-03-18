@@ -4,6 +4,15 @@ from pipelines.forms import OperationForm, PipelineForm
 from pipelines.models import Pipeline, Operation
 from django.contrib.auth.decorators import login_required
 
+
+def home_view(request):
+  context = {
+    "user": request.user
+  }
+
+  return render(request, "home.html", context)
+
+
 @login_required
 def pipelines_view(request):
   pipeline_objs = Pipeline.objects.filter(user__pk=request.user.id)
