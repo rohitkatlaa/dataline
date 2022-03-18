@@ -78,8 +78,27 @@ def pipeline_update_view(request, id=None):
 
 @login_required
 def pipeline_delete(request, id=None):
-  pipeline_obj = None
-  if id is not None:
-    pipeline_obj = Pipeline.objects.get(id=id)
+  pipeline_obj = Pipeline.objects.get(id=id)
+  if request.method == "POST":
     pipeline_obj.delete()
-  return redirect(pipelines_view)
+    return redirect(pipelines_view)
+  context = {
+    "obj_name": "Pipeline",
+    "name": pipeline_obj.name
+  }
+  return render(request, "pipeline/delete.html", context)
+
+
+@login_required
+def operation_delete_view(request, id=None):
+  obj = Operation.objects.get(id=id, pipeline__user=request.user)
+  parent_id = obj.pipeline.id
+  if request.method == "POST":
+    obj.delete()
+    return redirect(pipeline_detail_view, parent_id)
+  context = {
+    "obj_name": "Operation",
+    "name": obj.operation_name
+  }
+  return render(request, "pipeline/delete.html", context)
+
