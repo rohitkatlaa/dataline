@@ -3,9 +3,11 @@
 {% block content %}
 
 <form method='POST' action="{{ request.get_full_path }}">
-    {% csrf_token %}
-    <p>Are you sure you want to delete {{ obj_name }} "{{ name }}"</p>
-    <button type='submit'>Yes, delete.</button>
+    <div class="text-center">
+        {% csrf_token %}
+        <p>Are you sure you want to delete {{ obj_name }} "{{ name }}"</p>
+        <button type='submit' class="btn btn-danger">Yes, delete.</button>
+    </div>
 </form>
     
 

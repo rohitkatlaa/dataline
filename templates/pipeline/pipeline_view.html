@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Hello {{user.username }}!!</h1>
-    <a href="/pipeline/create">Create Pipeline</a>
-    {% for pipeline in pipeline_objs %}
-        <h1><a href="/pipeline/{{pipeline.id}}">{{ pipeline.name }} </a></h1>
-    {% endfor %}
+    <div class="text-center">
+        <h1>Hello {{user.username }}!!</h1>
+    </div>
+    <div class="list-group">
+        {% for pipeline in pipeline_objs %}
+            <a class="list-group-item list-group-item-action" href="/pipeline/{{pipeline.id}}">{{ pipeline.name }}</a>
+        {% endfor %}
+    </div>
 {% endblock %}
