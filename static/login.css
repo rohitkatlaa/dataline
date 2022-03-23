@@ -36,15 +36,14 @@ background-color: rgba(0,0,0,0.5) !important;
     height: 700px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: rgba(35, 50, 184, 0.521);
+    background-color: rgba(12, 34, 238, 0.521);
     border-radius: 5px;
-    text-align: center;
 }
 
 .form
 {
     margin-left: 25%;
-    margin-right:25%;
+    margin-right: 25%;
     width: 50%;
 }
 
