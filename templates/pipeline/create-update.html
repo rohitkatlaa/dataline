@@ -2,9 +2,6 @@
 
 {% block content %}
 <style>
-  .operation-form {
-      border-bottom: 1px solid black;
-  }
   .hidden {
       display: none
   }
@@ -18,16 +15,16 @@
       {{ formset.management_form }}
       <div id="operation-form-list">
         {% for form in formset %}
-          <div class="operation-form">
-            {{ form.as_p }}
-          </div>
+            <div class="operation-form mt-4 mb-4 card2">
+              {{ form.as_p }}
+            </div>
         {% endfor %}
       </div>
       <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
-      <button id="add-more" type="button">Add Operations</button>
+      <button id="add-more" type="button" class="btn btn-primary mb-2 mt-2">Add Operations</button>
   </div>
 
-    <button type="submit">Save</button>
+    <button type="submit" class="btn btn-primary mb-2 mt-2">Save</button>
   </form>
 
 
@@ -45,7 +42,7 @@
     const currentFormCount = currentOperationForms.length
     const formCopyTarget = document.getElementById('operation-form-list')
     const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
-    copyEmptyFormEl.setAttribute('class', 'operation-form')
+    copyEmptyFormEl.setAttribute('class', 'operation-form mt-4 mb-4 card2')
     copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
