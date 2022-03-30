@@ -1,18 +1,22 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
 
 
 {% block content %}
 
 {% if not request.user.is_authenticated %}
     <div style='margin-top:30px;'>
-        <form method='POST'>{% csrf_token %}
-            {{ form.as_p }}
-            <button type='submit'>Register</button>
+        <form method='POST'>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type='submit' class="btn btn-primary">Register</button>
         </form>
-        <p>Already have an account? Please <a href='/login'>Login</a></p>
+        <p style="padding-top: 5px;">Already have an account? Please <a href='/login'>Login</a></p>
     </div>
 {% else %}
-<p>You're already logged in and cannot register. Would you like to <a href='/logout/'>logout</a>?</p>
+<div class="text-center">
+    <p>You're already logged in and cannot register. Would you like to <a href='/logout/'>logout</a>?</p>
+</div>
 {% endif %}
 
 {% endblock %}
