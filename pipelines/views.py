@@ -58,7 +58,7 @@ def pipeline_execute_view(request, id=None):
 def pipeline_execution_output_view(request, id=None, filename=None):
   pipeline_obj = get_object_or_404(Pipeline, id=id, user=request.user)
 
-  input_data_dict = pdata.DataReader.generate_csv_data_dict(os.path.join(BASE_DIR, 'media', filename), filename)
+  input_data_dict = pdata.DataReader.generate_csv_data_dict(os.path.join(BASE_DIR, 'media', filename), filename.split(".")[0])
 
   p_format = ps.PipelineFormat()
   stage_dict = {}
