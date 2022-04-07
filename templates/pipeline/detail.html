@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ object.name }} <small><a href="/pipeline/update/{{object.id}}">Edit</a></small></h1>
+  <h1>{{ object.name }} <small><a href="/pipeline/update/{{object.id}}">Edit</a></small> <small><a href="/pipeline/execute/{{object.id}}">Execute</a></small></h1>
   <h1>User: {{ object.user.username }}</h1>
   <h3>{{ object.pipeline_description }}</h3>
   <hr/>
