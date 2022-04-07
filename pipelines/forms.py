@@ -40,14 +40,6 @@ class PipelineForm(forms.ModelForm):
         new_data
       )
 
-  def clean(self):
-    data = self.cleaned_data
-    name = data.get("name")
-    qs = Pipeline.objects.filter(name=name)
-    if qs.exists():
-      self.add_error("name", f"{name} is already taken. Please pick other one.")
-    return data
-
 
 class OperationForm(forms.ModelForm):
 
