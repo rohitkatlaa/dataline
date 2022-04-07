@@ -26,17 +26,17 @@ background-color: rgba(0,0,0,0.5) !important;
     height: 150px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: rgba(19, 48, 212, 0.521);
+    background-color: rgba(215, 227, 228, 0.521);
     border-radius: 5px;
 }
 
 .card2
 {
-    width: 800px;
+    width: 900px;
     height: 700px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: rgba(12, 34, 238, 0.521);
+    background-color: rgba(215, 227, 228, 0.521);
     border-radius: 5px;
 }
 
@@ -110,4 +110,15 @@ color: white;
 
 .links a{
 margin-left: 4px;
+}
+
+.col-xs-12 {
+    white-space: nowrap !important;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+.col-xs-3 {
+float: none !important;
+display: inline-block !important;
 }

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ object.name }} </h1>
+  <h3>{{ object.pipeline_description }}</h3>
+  <hr/>
+  {% if status == "success"%}
+    Pipeline execution successful.<br/>
+    <a href="/pipeline/output_file/{{output}}">Click here to download the output.</a>
+  {% else %} 
+    Pipeline execution failed.<br/>
+    {{output}}
+  {% endif %}
+
+{% endblock %}

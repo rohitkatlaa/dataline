@@ -13,14 +13,53 @@
     <div>
       <h3>Operations</h3>
       {{ formset.management_form }}
-      <div id="operation-form-list">
-        {% for form in formset %}
-            <div class="operation-form mt-4 mb-4 card2 form">
-              {{ form.as_p }}
-            </div>
+      <div class="border border-5">
+        <div id="operation-form-list">
+          <ul class="list-group">
+            {% for form in formset %}
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+              <div class="operation-form mt-4 mb-4 form">
+                {% for field in form %}
+                  {% if field.label != "Id" %}
+                    <li class="list-group-item bg-light">
+                      <div class="row row-cols-auto">
+                        <div class="col">
+                          {{ field.label_tag }}
+                        </div>
+                        <div class="col">
+                          {{ field }}
+                        </div>
+                        <div class="col">
+                          {{ field.errors }}
+                        </div>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div id="empty-form" class="hidden">
+        {% for field in formset.empty_form %}
+            <li class="list-group-item bg-light">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  {{ field.label_tag }}
+                </div>
+                <div class="col">
+                  {{ field }}
+                </div>
+                <div class="col">
+                  {{ field.errors }}
+                </div>
+              </div>
+            </li>
         {% endfor %}
       </div>
-      <div id="empty-form" class="hidden">{{ formset.empty_form.as_p }}</div>
       <button id="add-more" type="button" class="btn btn-primary mb-2 mt-2">Add Operations</button>
   </div>
 
@@ -42,7 +81,7 @@
     const currentFormCount = currentOperationForms.length
     const formCopyTarget = document.getElementById('operation-form-list')
     const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
-    copyEmptyFormEl.setAttribute('class', 'operation-form mt-4 mb-4 card2 form')
+    copyEmptyFormEl.setAttribute('class', 'operation-form mt-4 mb-4 form')
     copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)

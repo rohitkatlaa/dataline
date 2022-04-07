@@ -41,6 +41,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="/pipeline/create">Create Pipeline</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/pipelines/">Show Pipelines</a>
+                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link active" href="/login">Login</a>
@@ -52,7 +55,7 @@
                 </ul>
             </div>
             {% if user.username %}
-                <a class="navbar-brand me-2">Hi {{ user.username }}!</a>
+                <a class="navbar-brand me-2 text-white">Hi {{ user.username }}!</a>
             {% endif %}
         </div>
     </nav>
