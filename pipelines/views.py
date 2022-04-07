@@ -58,32 +58,41 @@ def pipeline_execute_view(request, id=None):
 def pipeline_execution_output_view(request, id=None, filename=None):
   pipeline_obj = get_object_or_404(Pipeline, id=id, user=request.user)
 
-  input_data_dict = pdata.DataReader.generate_csv_data_dict(os.path.join(BASE_DIR, 'media', filename), filename.split(".")[0])
+  try:
+    input_data_dict = pdata.DataReader.generate_csv_data_dict(os.path.join(BASE_DIR, 'media', filename), filename.split(".")[0])
 
-  p_format = ps.PipelineFormat()
-  stage_dict = {}
-  for operation in pipeline_obj.get_operation_children():
-    if operation.stage_name not in stage_dict.keys():
-      s_format = ps.StageFormat(operation.stage_name)
-      stage_dict[operation.stage_name] = s_format
-    
-    t_format = ps.TaskFormat([operation.data_input_name], operation.operation_name, operation.parameters, operation.data_output_name)
+    p_format = ps.PipelineFormat()
+    stage_dict = {}
+    for operation in pipeline_obj.get_operation_children():
+      if operation.stage_name not in stage_dict.keys():
+        s_format = ps.StageFormat(operation.stage_name)
+        stage_dict[operation.stage_name] = s_format
+      
+      t_format = ps.TaskFormat([operation.data_input_name], operation.operation_name, operation.parameters, operation.data_output_name)
 
-    stage_dict[operation.stage_name].add_task_format(t_format)
+      stage_dict[operation.stage_name].add_task_format(t_format)
 
 
-  for stage_name in stage_dict:
-    p_format.add_stage_format(stage_dict[stage_name])
+    for stage_name in stage_dict:
+      p_format.add_stage_format(stage_dict[stage_name])
 
-  pipeline_instance = ps.Pipeline(pipeline_obj.name, input_data_dict, p_format)
-  output = pipeline_instance.execute()
-  final_output = output.fetch_dt(operation.data_output_name).fetch_table()
-  final_output.to_csv("media/"+pipeline_instance.name+"_output.csv")
-  os.remove("media/"+filename)
+    pipeline_instance = ps.Pipeline(pipeline_obj.name, input_data_dict, p_format)
+    output = pipeline_instance.execute()
+    final_output = output.fetch_dt(operation.data_output_name).fetch_table()
+    final_output.to_csv("media/"+pipeline_instance.name+"_output.csv")
+    os.remove("media/"+filename)
+    output = pipeline_instance.name+"_output.csv"
+    status = "success"
+  except Exception as e:
+    os.remove("media/"+filename)
+    print(e)
+    status = "failure"
+    output = e
 
   context = {
     "object": pipeline_obj,
-    "output": pipeline_instance.name+"_output.csv"
+    "status": status,
+    "output": output
   }
   return render(request, "pipeline/execution_output.html", context)
 
