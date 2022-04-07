@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from pipelines import views
 
 urlpatterns = [
-    path('', views.home_view, name='list'),
+    path('', views.home_view, name='home'),
     path('pipelines/', views.pipelines_view, name='list'),
     path("pipeline/<int:id>/", views.pipeline_detail_view, name='detail'),
     path("pipeline/execute/<int:id>/", views.pipeline_execute_view, name='execute_pipeline'),

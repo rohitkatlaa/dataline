@@ -21,10 +21,10 @@ class Pipeline(models.Model):
 
 class Operation(models.Model):
   pipeline = models.ForeignKey(Pipeline, blank=True, null=True, on_delete=models.SET_NULL)
-  stage_name = models.TextField()
-  operation_name = models.CharField(choices=OPERATION_CHOICES, max_length=100)
-  data_input_name = models.TextField()
-  data_output_name = models.TextField()
+  stage_name = models.CharField(max_length=50)
+  operation_name = models.CharField(choices=OPERATION_CHOICES, max_length=50)
+  data_input_name = models.CharField(max_length=50)
+  data_output_name = models.CharField(max_length=50)
   timestamp = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
   parameters = models.JSONField()

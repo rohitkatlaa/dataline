@@ -1,3 +1,4 @@
+from ast import arg
 from datetime import datetime
 from django import forms
 from pipelines.choices import OPERATION_CHOICES
@@ -33,7 +34,6 @@ class PipelineForm(forms.ModelForm):
     super().__init__(*args, **kwargs)
     for field in self.fields:
       new_data = {
-        "placeholder": f'Pipeline {str(field)}',
         "class": 'form-control',
       }
       self.fields[str(field)].widget.attrs.update(
@@ -51,118 +51,130 @@ class PipelineForm(forms.ModelForm):
 
 class OperationForm(forms.ModelForm):
 
-  operation_name = forms.ChoiceField(choices=OPERATION_CHOICES, label="", initial='', widget=forms.Select(), required=True)
-
+  operation_name = forms.ChoiceField(choices=OPERATION_CHOICES, initial='', required=True)
   class Meta:
     model = Operation
     fields = ["stage_name", "operation_name", "data_input_name", "data_output_name", "parameters"]
 
+  def __init__(self, *args, **kwargs):
+    super(OperationForm, self).__init__(*args, **kwargs)
+    self.fields['stage_name'].widget.attrs.update({'class': 'form-control', 'style': "width:500px;"})
+    self.fields['operation_name'].widget.attrs.update({'class': 'form-select', 'style': "width:500px;"})
+    self.fields['data_input_name'].widget.attrs.update({'class': 'form-control', 'style': "width:500px;"})
+    self.fields['data_output_name'].widget.attrs.update({'class': 'form-control', 'style': "width:500px;"})
+    self.fields['parameters'].widget.attrs.update({'class': 'form-control', 'style': "width:500px;"})
+
   def clean(self):
     data = self.cleaned_data
     operation_name = data.get("operation_name")
-    parameters = data.get("parameters")#type->dict
-    #print(parameters.get("cat") == None)
+    parameters = data.get("parameters")
     if operation_name == "Lower Case":
-      if len(parameters) != 0:
-        self.add_error("operation_name", f"No parameters should be mentioned.")
+      required_params = {"column_name":str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     elif operation_name == "Upper Case":
-      if len(parameters) != 0:
-        self.add_error("operation_name", f"No parameters should be mentioned.")
+      required_params = {"column_name":str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     
     elif operation_name == "Add Value":
       required_params = {"value":int, "column_name":str}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     elif operation_name == "Multiply Value":
       required_params = {"value":int, "column_name":str}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     elif operation_name == "Divide Value":
       required_params = {"value":int, "column_name":str}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     
     elif operation_name == "Add Columns":
       if parameters.get("inplace") == True:
-        required_params = {"value":int, "column_name1":str, "column_name1":str, "inplace":bool, "output_column":str}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
         if schema_params(required_params, parameters):
           pass
         else:
-          self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+          self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       elif parameters.get("inplace") == False:
-        required_params = {"value":int, "column_name1":str, "column_name1":str, "inplace":bool}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool}
         if schema_params(required_params, parameters):
           pass
         else:
-          self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+          self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       else:
-        self.add_error("operation_name", f"invalid parameters are mentioned.")
+        self.add_error("parameters", f"invalid parameters are mentioned.")
 
     elif operation_name == "Multiply Columns":
       if parameters.get("inplace") == True:
-        required_params = {"value":int, "column_name1":str, "column_name1":str, "inplace":bool, "output_column":str}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
         if schema_params(required_params, parameters):
           pass
         else:
-          self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+          self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       elif parameters.get("inplace") == False:
-        required_params = {"value":int, "column_name1":str, "column_name1":str, "inplace":bool}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool}
         if schema_params(required_params, parameters):
           pass
         else:
-          self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+          self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       else:
-        self.add_error("operation_name", f"invalid parameters are mentioned.")
+        self.add_error("parameters", f"invalid parameters are mentioned.")
 
     elif operation_name == "Divide Columns":
       if parameters.get("inplace") == True:
-        required_params = {"value":int, "column_name1":str, "column_name1":str, "inplace":bool, "output_column":str}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
         if schema_params(required_params, parameters):
           pass
         else:
-          self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+          self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       elif parameters.get("inplace") == False:
-        required_params = {"value":int, "column_name1":str, "column_name1":str, "inplace":bool}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool}
         if schema_params(required_params, parameters):
           pass
         else:
-          self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+          self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       else:
-        self.add_error("operation_name", f"invalid parameters are mentioned.")
+        self.add_error("parameters", f"invalid parameters are mentioned.")
 
     elif operation_name == "Length of Text":
       required_params = {"column_name":str, "output_column":str}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
 
     elif operation_name == "Date Difference":
       required_params = {"column_name1":str, "column_name2":str, "output_column":str}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
 
     elif operation_name == "Add Date":
       required_params = {"column_name":str, "date":datetime}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
 
     elif operation_name == "Split Column by delimiter":
       required_params = {"column_name":str, "split_by":str}
       if schema_params(required_params, parameters):
         pass
       else:
-        self.add_error("operation_name", f"{required_params} are the parameters that need to be mentioned.")
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
 
     return data
 
