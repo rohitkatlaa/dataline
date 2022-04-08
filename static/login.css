@@ -113,7 +113,7 @@ margin-left: 4px;
 }
 
 .col-xs-12 {
-    white-space: nowrap !important;
+    /* white-space: nowrap !important; */
     max-width: 100%;
     overflow: auto;
   }
