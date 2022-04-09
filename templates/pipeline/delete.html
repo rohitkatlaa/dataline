@@ -3,10 +3,18 @@
 {% block content %}
 
 <form method='POST' action="{{ request.get_full_path }}">
-    <div class="text-center">
-        {% csrf_token %}
-        <p>Are you sure you want to delete {{ obj_name }} "{{ name }}"</p>
-        <button type='submit' class="btn btn-danger">Yes, delete.</button>
+    <div class="text-center form">
+        <ul class="list-group">
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete {{ obj_name }} "{{ name }}"</p>
+                    <button type='submit' class="btn btn-danger">Yes, delete.</button>
+                </div>
+              </div>
+            </li>
+        </ul>
     </div>
 </form>
     

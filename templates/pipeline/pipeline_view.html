@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="text-center">
-        <h1>Hello {{user.username }}!!</h1>
+    <div class="mb-2 form">
+        <a>List of your pipelines</a>
     </div>
-    <div class="list-group">
-        {% for pipeline in pipeline_objs %}
-            <a class="list-group-item list-group-item-action" href="/pipeline/{{pipeline.id}}">{{ pipeline.name }}</a>
-        {% endfor %}
+    <div class="border border-5 form">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row row-cols-auto">
+                    <div class="col">
+                        <p class="font-weight-bold">pipeline name</p>
+                    </div>
+                    <div class="col">
+                        <p class="font-weight-bold">pipeline description</p>
+                    </div>
+                </div>
+            </li>
+            {% for pipeline in pipeline_objs %}
+                <li class="list-group-item">
+                    <div class="row row-cols-auto">
+                        <div class="col">
+                            <a href="/pipeline/{{pipeline.id}}">{{ pipeline.name }}</a>
+                        </div>
+                        <div class="col">
+                            {{ pipeline.pipeline_description }}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

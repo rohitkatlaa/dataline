@@ -7,6 +7,9 @@
   }
 </style>
   <form action="{{ request.get_full_path }}" method="POST">
+    <div class="text-right mr-3">
+      <a class="btn btn-dark mt-2" href="/pipelines">Back to Pipelines</a>
+    </div>
     {% csrf_token %}
     {{ form.as_p }}
 
@@ -63,7 +66,9 @@
       <button id="add-more" type="button" class="btn btn-primary mb-2 mt-2">Add Operations</button>
   </div>
 
+  <div style="padding-bottom: 20px;">
     <button type="submit" class="btn btn-primary mb-2 mt-2">Save</button>
+  </div>
   </form>
 
 
