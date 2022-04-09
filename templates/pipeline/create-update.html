@@ -48,6 +48,7 @@
       </div>
       <div id="empty-form" class="hidden">
         {% for field in formset.empty_form %}
+          {% if field.label != "Id" %}
             <li class="list-group-item bg-light">
               <div class="row row-cols-auto">
                 <div class="col">
@@ -61,6 +62,7 @@
                 </div>
               </div>
             </li>
+          {% endif %}
         {% endfor %}
       </div>
       <button id="add-more" type="button" class="btn btn-primary mb-2 mt-2">Add Operations</button>
