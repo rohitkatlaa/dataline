@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card1 mb-3">
+  <div>
+    <p class="font-weight-bold text-dark" style="display: inline-block; margin-left: 10px; margin-top: 5px;">Pipeline Name:</p>
+    <p class="text-dark" style="display: inline-block;">{{ object.name }}</p>
+  </div>
+  <div>
+    <p class="font-weight-bold text-dark" style="display: inline-block; margin-left: 10px; margin-top: 5px;">User:</p>
+    <p class="text-dark" style="display: inline-block;">{{ object.user.username }}</p>
+  </div>
+  <div>
+    <p class="font-weight-bold text-dark" style="display: inline-block; margin-left: 10px; margin-top: 5px;">Description:</p>
+    <p class="text-dark" style="display: inline-block;">{{ object.pipeline_description }}</p>
+  </div>
+</div>
+<div>
+  <h2>Operations</h2>
+</div>
+<div class="border border-5">
+  <ul class="list-group">
+    {% for operation in object.get_operation_children %}
+      <li class="list-group-item">
+        <div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  <p class="font-weight-bold">operation name:</p>
+                </div>
+                <div class="col">
+                  {{ operation.operation_name }}
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  <p class="font-weight-bold">stage name:</p>
+                </div>
+                <div class="col">
+                  {{ operation.stage_name }}
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  <p class="font-weight-bold">data input name:</p>
+                </div>
+                <div class="col">
+                  {{ operation.data_input_name }}
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  <p class="font-weight-bold">data output name:</p>
+                </div>
+                <div class="col">
+                  {{ operation.data_output_name }}
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  <p class="font-weight-bold">parameters:</p>
+                </div>
+                <div class="col">
+                  {{ operation.parameters }}
+                </div>
+              </div>
+            </li>
+            {% if is_owner %}
+            <li class="list-group-item">
+              <div class="row row-cols-auto">
+                <div class="col">
+                  <a class="btn btn-danger mt-2" href="/pipeline/operation/delete/{{operation.id}}">Delete Operation</a>
+                </div>
+              </div>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="col-xs-12" style="padding-bottom: 20px;">
+  {% if is_owner %}
+  <div class="col-xs-3">
+    <a class="btn btn-danger mt-2" href="/pipeline/delete/{{object.id}}">Delete pipeline</a>
+  </div>
+  <div class="col-xs-3">
+    <a class="btn btn-primary mt-2" href="/pipeline/update/{{object.id}}">Edit</a></small></h1>
+  </div>
+  {% endif %}
+  <div class="col-xs-3">
+    <a class="btn btn-success mt-2" href="{{dataline_url}}/pipeline/execute/{{object.id}}">Execute</a></small></h1>
+  </div>
+</div>
+{% endblock %}

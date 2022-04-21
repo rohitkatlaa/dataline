@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-right mr-3">
+  <a class="btn btn-dark mt-2 mb-4" href="{{dataline_url}}/pipeline/{{object.id}}">Back to Pipeline Details</a>
+</div>
+
+<div class="border border-5">
+  <ul class="list-group">
+    <li class="list-group-item">
+        <div class="row row-cols-auto">
+            <div class="col">
+                <p class="font-weight-bold">pipeline name</p>
+            </div>
+            <div class="col">
+                <p class="font-weight-bold">pipeline description</p>
+            </div>
+        </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row row-cols-auto">
+          <div class="col">
+            <p>{{ object.name }}</p>
+          </div>
+          <div class="col">
+            <p>{{ object.pipeline_description }}</p>
+          </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="border border-5">
+  <ul class="list-group">
+    <li class="list-group-item">
+        <div class="row row-cols-auto">
+            <div class="col">
+                <p class="font-weight-bold">Execution Status</p>
+            </div>
+            <div class="col">
+                <p class="font-weight-bold">Message</p>
+            </div>
+        </div>
+    </li>
+    {% if status == "success"%}
+      <li class="list-group-item">
+        <div class="row row-cols-auto">
+            <div class="col">
+              <p>Pipeline execution successful</p>
+            </div>
+            <div class="col">
+              <a href="/pipeline/output_file/{{output}}">Click here to download the output.</a>
+            </div>
+        </div>
+      </li>
+    {% else %}
+      <li class="list-group-item">
+        <div class="row row-cols-auto">
+            <div class="col">
+              <p>Pipeline execution failed</p>
+            </div>
+            <div class="col">
+              <p>{{output}}</p>
+            </div>
+        </div>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+  <!-- {% if status == "success"%}
+    Pipeline execution successful.<br/>
+    <a href="/pipeline/output_file/{{output}}">Click here to download the output.</a>
+  {% else %} 
+    Pipeline execution failed.<br/>
+    {{output}}
+  {% endif %} -->
+
+{% endblock %}

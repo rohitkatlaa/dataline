@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- <ul class="nav nav-tabs">
+        <li class="nav-item"></li> -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="my-tab" data-bs-toggle="tab" data-bs-target="#my" type="button" role="tab" aria-controls="my" aria-selected="true">My Pipelines</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="false">All Pipelines</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="my" role="tabpanel" aria-labelledby="my-tab">
+            {% if user.username %}
+                <div class="mb-2 mt-4 fs-2">
+                    List of your pipelines
+                </div>
+                <div class="border border-5">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row row-cols-auto">
+                                <div class="col">
+                                    <p class="font-weight-bold fs-4">Pipeline name</p>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-bold fs-4">Pipeline Description</p>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-bold fs-4">Creator</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% for pipeline in my_pipeline_objs %}
+                            <li class="list-group-item">
+                                <div class="row row-cols-auto">
+                                    <div class="col">
+                                        <a href="/pipeline/{{pipeline.id}}">{{ pipeline.name }}</a>
+                                    </div>
+                                    <div class="col">
+                                        {{ pipeline.pipeline_description }}
+                                    </div>
+                                    <div class="col">
+                                        {{ pipeline.user.username }}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="m-4">
+                    <a class="active" href="./login">Login to get your pipelines</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="mb-2 mt-4 fs-2">
+                List of all pipelines
+            </div>
+            <div class="border border-5">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row row-cols-auto">
+                            <div class="col">
+                                <p class="font-weight-bold fs-4">Pipeline name</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold fs-4">Pipeline Description</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold fs-4">Creator</p>
+                            </div>
+                        </div>
+                    </li>
+                    {% for pipeline in all_pipeline_objs %}
+                        <li class="list-group-item">
+                            <div class="row row-cols-auto">
+                                <div class="col">
+                                    <a href="/pipeline/{{pipeline.id}}">{{ pipeline.name }}</a>
+                                </div>
+                                <div class="col">
+                                    {{ pipeline.pipeline_description }}
+                                </div>
+                                <div class="col">
+                                    {{ pipeline.user.username }}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+      </div>
+{% endblock %}

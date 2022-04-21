@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-right mr-3">
+  <a class="btn btn-dark mt-2 mb-4" href="{{dataline_url}}/pipeline/{{object.id}}">Back to Pipeline Details</a>
+</div>
+
+<div class="border border-5">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row row-cols-auto">
+        <div class="col">
+            <p class="font-weight-bold">pipeline name</p>
+        </div>
+        <div class="col">
+            <p class="font-weight-bold">pipeline description</p>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row row-cols-auto">
+        <div class="col">
+          <p>{{ object.name }}</p>
+        </div>
+        <div class="col">
+          <p>{{ object.pipeline_description }}</p>
+        </div>
+      </div>
+    </li>
+    {% if uploaded_file_url == None %}
+      <li class="list-group-item">
+        <form method="post" enctype="multipart/form-data" action="{{ request.get_full_path }}">
+          <div class="row row-cols-auto">
+            {% csrf_token %}
+            <div class="col">
+              <input class="form-control" type="file" name="data_file">
+            </div>
+            <div class="col">
+              <button class="btn btn-primary" type="submit">Upload</button>
+            </div>
+          </div>
+        </form>
+      </li>
+    {% endif %}
+    {% if uploaded_file_url %}
+      <li class="list-group-item">
+        <div class="row row-cols-auto">
+            <div class="col">
+              <p>File uploaded at</p>
+            </div>
+            <div class="col">
+              <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a>
+            </div>
+        </div>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+  <!-- <form method="post" enctype="multipart/form-data" action="{{ request.get_full_path }}">
+    {% csrf_token %}
+    <input type="file" name="data_file">
+    <button type="submit">Upload</button>
+  </form> -->
+
+  {% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
+
+{% endblock %}
