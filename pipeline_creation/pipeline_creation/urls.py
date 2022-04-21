@@ -25,5 +25,5 @@ urlpatterns = [
     path('', include('pipelines.urls')),
     path('accounts/login/', login_view),
     path('logout/', logout_view),
-    path('register/', register_view),
+    path('accounts/register/', register_view),
 ]
