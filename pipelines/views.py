@@ -21,9 +21,11 @@ def home_view(request):
 
 @login_required
 def pipelines_view(request):
-  pipeline_objs = Pipeline.objects.filter(user__pk=request.user.id)
+  all_pipeline_objs = Pipeline.objects.all()
+  my_pipeline_objs = Pipeline.objects.filter(user__pk=request.user.id)
   context = {
-    "pipeline_objs": pipeline_objs,
+    "all_pipeline_objs": all_pipeline_objs,
+    "my_pipeline_objs": my_pipeline_objs,
     "user": request.user
   }
 
@@ -32,9 +34,10 @@ def pipelines_view(request):
 
 @login_required
 def pipeline_detail_view(request, id=None):
-  pipeline_obj = get_object_or_404(Pipeline, id=id, user=request.user)
+  pipeline_obj = get_object_or_404(Pipeline, id=id)
   context = {
-    "object": pipeline_obj
+    "object": pipeline_obj,
+    "is_owner": pipeline_obj.user == request.user
   }
 
   return render(request, "pipeline/detail.html", context)
@@ -42,7 +45,7 @@ def pipeline_detail_view(request, id=None):
 
 @login_required
 def pipeline_execute_view(request, id=None):
-  pipeline_obj = get_object_or_404(Pipeline, id=id, user=request.user)
+  pipeline_obj = get_object_or_404(Pipeline, id=id)
   context = {
     "object": pipeline_obj
   }
@@ -56,7 +59,7 @@ def pipeline_execute_view(request, id=None):
 
 @login_required
 def pipeline_execution_output_view(request, id=None, filename=None):
-  pipeline_obj = get_object_or_404(Pipeline, id=id, user=request.user)
+  pipeline_obj = get_object_or_404(Pipeline, id=id)
 
   try:
     input_data_dict = pdata.DataReader.generate_csv_data_dict(os.path.join(BASE_DIR, 'media', filename), filename.split(".")[0])

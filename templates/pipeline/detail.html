@@ -74,6 +74,7 @@
                 </div>
               </div>
             </li>
+            {% if is_owner %}
             <li class="list-group-item">
               <div class="row row-cols-auto">
                 <div class="col">
@@ -81,6 +82,7 @@
                 </div>
               </div>
             </li>
+            {% endif %}
           </ul>
         </div>
       </li>
@@ -88,12 +90,14 @@
   </ul>
 </div>
 <div class="col-xs-12" style="padding-bottom: 20px;">
+  {% if is_owner %}
   <div class="col-xs-3">
     <a class="btn btn-danger mt-2" href="/pipeline/delete/{{object.id}}">Delete pipeline</a>
   </div>
   <div class="col-xs-3">
     <a class="btn btn-primary mt-2" href="/pipeline/update/{{object.id}}">Edit</a></small></h1>
   </div>
+  {% endif %}
   <div class="col-xs-3">
     <a class="btn btn-success mt-2" href="/pipeline/execute/{{object.id}}">Execute</a></small></h1>
   </div>
