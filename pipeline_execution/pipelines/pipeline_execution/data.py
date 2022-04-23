@@ -1,5 +1,4 @@
 import pandas as pd
-import mysql.connector as sql
 from typing import List
 
 class DataTable:
@@ -47,13 +46,4 @@ class DataReader:
     dt_list = []
     for sheet in df_dict:
       dt_list.append(DataTable(sheet, df_dict[sheet]))
-    return DataDict(dt_list)
-
-  @staticmethod
-  def generate_sql_data_dict(host: str, db_name: str, username: str, password: str, table_name_list: List[str]):
-    db_connection = sql.connect(host=host, database=db_name, user=username, password=password)
-    dt_list = []
-    for table_name in table_name_list:
-      df = pd.read_sql('SELECT * FROM ' + table_name, con=db_connection)
-      dt_list.append(DataTable(table_name, df))
     return DataDict(dt_list)

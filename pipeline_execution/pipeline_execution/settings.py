@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-import pymysql
 
-pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +26,7 @@ SECRET_KEY = 'django-insecure-5xt=i#vm%cpa7o2z65z1(!lmv0ahh3i+)k105&#ebpb%q@5$%*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,17 +81,13 @@ WSGI_APPLICATION = 'pipeline_execution.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }, 
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dataline_db',
-        'USER': os.environ['SQL_USER'],
-        'PASSWORD': os.environ['SQL_PASSWORD'],
-        'HOST': os.environ['SQL_HOST'],
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

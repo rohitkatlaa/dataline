@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from joblib import parallel_backend
 from pipelines.choices import OPERATION_CHOICES
 
 # Note: Every time some change is made here, run 
