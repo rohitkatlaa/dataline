@@ -18,8 +18,8 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - DATALINE_URL1=http://127.0.0.1:8001
-      - DATALINE_URL2=http://127.0.0.1:8002
+      - DATALINE_URL1=http://0.0.0.0:8001
+      - DATALINE_URL2=http://0.0.0.0:8002
     depends_on:
       - db
   web2:
@@ -31,53 +31,7 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - DATALINE_URL1=http://127.0.0.1:8001
-      - DATALINE_URL2=http://127.0.0.1:8002
+      - DATALINE_URL1=http://0.0.0.0:8001
+      - DATALINE_URL2=http://0.0.0.0:8002
     depends_on:
       - db
-
-# version: "3"
-   
-# services:
-#   db:
-#     image: mysql
-#     ports:
-#       - "3306:3306"
-#     volumes:
-#       - ./db:/docker-entrypoint-initdb.d/:ro
-#     environment:
-#       - MYSQL_DATABASE=dataline_db
-#       - MYSQL_ROOT_PASSWORD=1256156@Rk
-#   web1:
-#     build:
-#       context: ./pipeline_creation
-#       dockerfile: Dockerfile
-#     entrypoint: ["./wait.sh"]
-#     # command: python manage.py runserver 8001
-#     ports:
-#       - "8001:8001"
-#     environment:
-#       - DATALINE_URL1=http://127.0.0.1:8001
-#       - DATALINE_URL2=http://127.0.0.1:8002
-#       - SQL_USER=root
-#       - SQL_PASSWORD=1256156@Rk
-#       - SQL_HOST=db
-#     depends_on:
-#       - db
-#   # web2:
-#   #   # image: rohitkatlaa/dataline_pipeline_execution
-#   #   build:
-#   #     context: ./pipeline_creation
-#   #     dockerfile: Dockerfile
-#   #   entrypoint: ["./wait.sh"]
-#   #   command: python manage.py runserver 8002
-#   #   ports:
-#   #     - "8002:8002"
-#   #   environment:
-#   #     - DATALINE_URL1=http://127.0.0.1:8001
-#   #     - DATALINE_URL2=http://127.0.0.1:8002
-#   #     - SQL_USER=root
-#   #     - SQL_PASSWORD=1256156@Rk
-#   #     - SQL_HOST=db
-#   #   depends_on:
-#   #     - db
