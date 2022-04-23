@@ -1,5 +1,6 @@
 # custom files
 *.csv
+data
 
 # Django #
 *.log
