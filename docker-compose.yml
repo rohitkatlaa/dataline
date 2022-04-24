@@ -18,6 +18,7 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
       - DATALINE_URL1=http://0.0.0.0:8001
       - DATALINE_URL2=http://0.0.0.0:8002
     depends_on:
@@ -31,6 +32,7 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
       - DATALINE_URL1=http://0.0.0.0:8001
       - DATALINE_URL2=http://0.0.0.0:8002
     depends_on:

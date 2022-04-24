@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pipeline-execution
+  labels:
+    app: pipeline-execution
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipeline-execution
+  template:
+    metadata:
+      labels:
+        app: pipeline-execution
+    spec:
+      containers:
+      - name: pipeline-execution
+        image: rohitkatlaa/dataline_pipeline_execution:latest
+        command: ["./docker-entrypoint.sh"]
+        ports:
+        - containerPort: 8002
+        env:
+        - name: POSTGRES_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-db
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-password
+        - name: POSTGRES_HOST
+          valueFrom: 
+            configMapKeyRef:
+              name: postgres-configmap
+              key: database_url
+        - name: DATALINE_URL1
+          value: http://datalinecreation.com
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pipeline-execution-service
+spec:
+  selector:
+    app: pipeline-execution  
+  ports:
+    - protocol: TCP
+      port: 8002
+      targetPort: 8002
