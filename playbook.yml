@@ -1,0 +1,53 @@
+# playbook.yml
+---
+- name: Deploying Dataline
+  # hosts: all
+  hosts: localhost
+  connection: local
+  remote_user: rohit
+  tasks:
+    - name: create namespace
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/dataline-namespace.yaml') | from_yaml }}"
+    - name: create postrgres secret
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/postgres-secret.yaml') | from_yaml }}"
+    - name: create postrgres
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/postgres.yaml') | from_yaml }}"
+    - name: create postrgres service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/postgres-service.yaml') | from_yaml }}"
+    - name: create postrgres configmap
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/postgres-configmap.yaml') | from_yaml }}"
+    - name: create pipeline_creation
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/pipeline_creation.yaml') | from_yaml }}"
+    - name: create pipeline_creation_service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/pipeline_creation_service.yaml') | from_yaml }}"
+    - name: create pipeline_execution
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/pipeline_execution.yaml') | from_yaml }}"
+    - name: create pipeline_execution_service
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/pipeline_execution_service.yaml') | from_yaml }}"
+    - name: create dataline_ingress
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', './k8-configuration/dataline_ingress.yaml') | from_yaml }}"
+        
+        
+        
+        
+        
