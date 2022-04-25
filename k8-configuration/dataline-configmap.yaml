@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: dataline-configmap
-data:
-  dataline_creation_url: pipeline-creation-service 
-  dataline_execution_url: pipeline-execution-service 

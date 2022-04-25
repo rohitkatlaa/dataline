@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres-deployment
+  namespace: dataline
   labels:
     app: postgres
 spec:
@@ -35,16 +36,3 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: postgres-password
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-service
-spec:
-  selector:
-    app: postgres
-  type: ClusterIP  
-  ports:
-    - protocol: TCP
-      port: 5432
-      targetPort: 5432

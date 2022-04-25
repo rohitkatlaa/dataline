@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pipeline-creation
+  namespace: dataline
   labels:
     app: pipeline-creation
 spec:
@@ -43,15 +44,3 @@ spec:
               key: database_url
         - name: DATALINE_URL2
           value: http://datalineexecution.com
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pipeline-creation-service
-spec:
-  selector:
-    app: pipeline-creation
-  ports:
-    - protocol: TCP
-      port: 8001
-      targetPort: 8001

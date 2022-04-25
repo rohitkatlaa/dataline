@@ -8,7 +8,10 @@
 kubectl apply -f dataline-namespace.yaml
 kubectl apply -f postgres-secret.yaml --namespace=dataline
 kubectl apply -f postgres.yaml --namespace=dataline
+kubectl apply -f postgres-service.yaml --namespace=dataline
 kubectl apply -f postgres-configmap.yaml --namespace=dataline
 kubectl apply -f pipeline_creation.yaml --namespace=dataline
+kubectl apply -f pipeline_creation_service.yaml --namespace=dataline
 kubectl apply -f pipeline_execution.yaml --namespace=dataline
+kubectl apply -f pipeline_execution_service.yaml --namespace=dataline
 kubectl apply -f dataline_ingress.yaml --namespace=dataline
