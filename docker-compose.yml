@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   web1:
-    build: ./pipeline_creation
+    image: rohitkatlaa/dataline_pipeline_creation:latest
     command: ./docker-entrypoint.sh
     ports:
       - "8001:8001"
@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
   web2:
-    build: ./pipeline_execution
+    image: rohitkatlaa/dataline_pipeline_execution:latest
     command: ./docker-entrypoint.sh
     ports:
       - "8002:8002"
