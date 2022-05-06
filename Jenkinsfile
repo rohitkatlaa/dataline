@@ -18,6 +18,11 @@ pipeline {
                 git url: 'https://github.com/rohitkatlaa/dataline.git', branch: 'master', credentialsId: 'jenkins-ansible'
             }
         }
+        stage('installing requirements for testing') {
+            steps {
+                sh 'pip3 install -r pipeline_execution/requirements.txt'
+            }
+        }
         stage('Testing') {
             steps {
                 sh 'cd pipeline_creation; python manage.py test; cd ../pipeline_creation; python manage.py test;'
