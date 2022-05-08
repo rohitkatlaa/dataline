@@ -60,5 +60,10 @@ pipeline {
                 ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'Ansible',inventory: 'inventory', playbook: 'playbook_docker.yml'
             }
         }
+        stage('Post Production Check') {
+            steps {
+                sh "python post_production_check.py"
+            }
+        }
     }
 }
