@@ -28,6 +28,11 @@ pipeline {
                 sh 'cd pipeline_creation; python manage.py test; cd ../pipeline_creation; python manage.py test;'
             }
         }
+        stage('Django check') {
+            steps {
+                sh 'cd pipeline_creation; python manage.py check; cd ../pipeline_creation; python manage.py check;'
+            }
+        }
         stage('Building Image') {
             steps {
                 script {
@@ -58,6 +63,11 @@ pipeline {
         stage('Ansible Deploy') {
             steps {
                 ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'Ansible',inventory: 'inventory', playbook: 'playbook_docker.yml'
+            }
+        }
+        stage('Post Production Check') {
+            steps {
+                sh "python post_production_check.py"
             }
         }
     }
