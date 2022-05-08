@@ -28,6 +28,11 @@ pipeline {
                 sh 'cd pipeline_creation; python manage.py test; cd ../pipeline_creation; python manage.py test;'
             }
         }
+        stage('Django check') {
+            steps {
+                sh 'cd pipeline_creation; python manage.py check; cd ../pipeline_creation; python manage.py check;'
+            }
+        }
         stage('Building Image') {
             steps {
                 script {
