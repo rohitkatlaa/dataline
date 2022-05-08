@@ -16,7 +16,16 @@ OPERATIONS_MAPPING = {
   "Date Difference": operations.DateDiffOperation,
   "Add Date": operations.AddDateOperation,
   "Split Column by delimiter": operations.SplitColumnOperation,
-  "JoinTableOperation": operations.JoinTableOperation
+  "Join Tables": operations.JoinTableOperation,
+  "Rename Column": operations.RenameColumnOperation,
+  "Delete Column": operations.DeleteColumnOperation,
+  "Integer Filter": operations.IntFilterOperation,
+  "Delete Duplicate rows": operations.DeleteDuplicatesOperation,
+  "RegEx filter": operations.RegExFilter,
+  "Add Variable": operations.AddVariableOperation,
+  "Subtract Variable": operations.SubVariableOperation,
+  "Multiply Variable": operations.MultiplyVariableOperation,
+  "Append Tables": operations.AppendTablesOperation,
 }
 POSSIBLE_OPERATIONS = OPERATIONS_MAPPING.keys()
 

@@ -80,13 +80,13 @@ class OperationForm(forms.ModelForm):
       else:
         self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     elif operation_name == "Multiply Value":
-      required_params = {"value":int, "column_name":str}
+      required_params = {"value":int, "column_name":str, "precision":int}
       if schema_params(required_params, parameters):
         pass
       else:
         self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
     elif operation_name == "Divide Value":
-      required_params = {"value":int, "column_name":str}
+      required_params = {"value":int, "column_name":str, "precision":int}
       if schema_params(required_params, parameters):
         pass
       else:
@@ -110,13 +110,13 @@ class OperationForm(forms.ModelForm):
 
     elif operation_name == "Multiply Columns":
       if parameters.get("inplace") == True:
-        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str, "precision":int}
         if schema_params(required_params, parameters):
           pass
         else:
           self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       elif parameters.get("inplace") == False:
-        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "precision":int}
         if schema_params(required_params, parameters):
           pass
         else:
@@ -126,13 +126,13 @@ class OperationForm(forms.ModelForm):
 
     elif operation_name == "Divide Columns":
       if parameters.get("inplace") == True:
-        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "output_column":str, "precision":int}
         if schema_params(required_params, parameters):
           pass
         else:
           self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
       elif parameters.get("inplace") == False:
-        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool}
+        required_params = {"value":int, "column_name1":str, "column_name2":str, "inplace":bool, "precision":int}
         if schema_params(required_params, parameters):
           pass
         else:
@@ -163,6 +163,69 @@ class OperationForm(forms.ModelForm):
 
     elif operation_name == "Split Column by delimiter":
       required_params = {"column_name":str, "split_by":str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Rename Column":
+      required_params = {"column_name": str, "new_column_name": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Delete Column":
+      required_params = {"column_name": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Integer Filter":
+      required_params = {"column_name": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "RegEx filter":
+      required_params = {"column_name": str, "regex": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Join Tables":
+      required_params = {"table1":str, "table2":str, "left_on":str, "right_on":str, "type":str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Add Variable":
+      required_params = {"table_name": str, "column_name": str, "variable": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Subtract Variable":
+      required_params = {"table_name": str, "column_name": str, "variable": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Multiply Variable":
+      required_params = {"table_name": str, "column_name": str, "variable": str}
+      if schema_params(required_params, parameters):
+        pass
+      else:
+        self.add_error("parameters", f"{required_params} are the parameters that need to be mentioned.")
+
+    elif operation_name == "Append Tables":
+      required_params = {"input_tables":list, "output_name":str}
       if schema_params(required_params, parameters):
         pass
       else:

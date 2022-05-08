@@ -11,4 +11,11 @@ OPERATION_CHOICES = (
     ("Date Difference", "Date Difference"),
     ("Add Date", "Add Date"),
     ("Split Column by delimiter", "Split Column by delimiter"),
+    ("Join Tables", "Join Tables"),
+    ("Rename Column", "Rename Column"),
+    ("Delete Column", "Delete Column"),
+    ("Integer Filter", "Integer Filter"),
+    ("Delete Duplicate rows", "Delete Duplicate rows"),
+    ("RegEx filter", "RegEx filter"),
+    ("Append Tables", "Append Tables"),
   )

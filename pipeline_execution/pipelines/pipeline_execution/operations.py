@@ -55,6 +55,110 @@ class ComplexOperation(BaseOperation):
   def get_type() -> str:
     return "ComplexOperation"
 
+class RenameColumnOperation(SimpleOperation):
+  
+  def validate_params(operation_params: dict) -> bool:
+
+    required_params = {"column_name": str, "new_column_name": str}
+
+    if schema_params(required_params, operation_params):
+      return True
+    else:
+      raise Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+  def run(operation_params: dict, inp_dt: data.DataTable):
+    df = inp_dt.fetch_table()
+    df[operation_params["new_column_name"]] = df[operation_params["column_name"]]
+    df.pop(operation_params["column_name"])
+    dt = data.DataTable(inp_dt.fetch_name(), df)
+
+    return dt
+
+class DeleteColumnOperation(SimpleOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+
+    required_params = {"column_name": str}
+
+    if schema_params(required_params, operation_params):
+      return True
+    else:
+      raise Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+  def run(operation_params: dict, inp_dt: data.DataTable):
+    df = inp_dt.fetch_table()
+    df.pop(operation_params["column_name"])
+    dt = data.DataTable(inp_dt.fetch_name(), df)
+    return dt
+
+class IntFilterOperation(SimpleOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+    optional_params = ["less_than_equal_to", "greater_than_equal_to", "less_than", "greater_than", "equal_to"]
+    required_params = ["column_name"]
+    if operation_params["column_name"] != None:
+      has_optional_param = False
+      for optional_param in optional_params:
+        if operation_params.get(optional_param) != None: 
+          if type(operation_params[optional_param]) in [int, float]:
+            has_optional_param = True
+      if has_optional_param:
+        return True
+    return Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+  def run(operation_params: dict, inp_dt: data.DataTable):
+    df = inp_dt.fetch_table()
+
+    if df[operation_params["column_name"]].dtype == 'int64' or df[operation_params["column_name"]].dtype == 'float64':
+      if operation_params.get('less_than_equal_to') != None:
+        df = df[df[operation_params['column_name']] <= operation_params['less_than_equal_to']]
+
+      if operation_params.get('greater_than_equal_to') != None:
+        df = df[df[operation_params['column_name']] >= operation_params['greater_than_equal_to']]
+
+      if operation_params.get('less_than') != None:
+        df = df[df[operation_params['column_name']] < operation_params['less_than']]
+
+      if operation_params.get('greater_than') != None:
+        df = df[df[operation_params['column_name']] > operation_params['greater_than']]
+
+      if operation_params.get('equal_to') != None:
+        df = df[df[operation_params['column_name']] == operation_params['equal_to']]
+
+    else:
+      raise Exception("Either column type should be integer or a decimal")
+    
+    dt = data.DataTable(inp_dt.fetch_name(), df)
+    return dt
+
+class DeleteDuplicatesOperation(SimpleOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+      return True
+
+  def run(operation_params: dict, inp_dt: data.DataTable):
+    df = inp_dt.fetch_table()
+
+    df = df.drop_duplicates(keep='first',inplace=False)
+    dt = data.DataTable(inp_dt.fetch_name(), df)
+    return dt
+
+class RegExFilter(SimpleOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+    required_params = {"column_name": str, "regex": str}
+
+    if schema_params(required_params, operation_params):
+      return True
+    else:
+      raise Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+
+  def run(operation_params: dict, inp_dt: data.DataTable):
+    df = inp_dt.fetch_table()
+    df = df[df[operation_params["column_name"]].str.match(operation_params["regex"])]
+    dt = data.DataTable(inp_dt.fetch_name(), df)
+    return dt
 
 class LowerCaseOperation(SimpleOperation):
 
@@ -117,7 +221,7 @@ class MultiplyValueOperation(SimpleOperation):
 
   def validate_params(operation_params: dict) -> bool:
 
-    required_params = {"column_name": str, "value": int}
+    required_params = {"column_name": str, "value": int, "precision": int}
 
     if schema_params(required_params, operation_params):
       return True
@@ -136,7 +240,7 @@ class DivideValueOperation(SimpleOperation):
 
   def validate_params(operation_params: dict) -> bool:
 
-    required_params = {"column_name": str, "value": int}
+    required_params = {"column_name": str, "value": int, "precision": int}
 
     if schema_params(required_params, operation_params):
       return True
@@ -187,13 +291,13 @@ class MultiplyColumnsOperation(SimpleOperation):
 
     if operation_params.get("inplace") != None:
       if operation_params["inplace"] == False:
-        required_params = {"column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
+        required_params = {"column_name1":str, "column_name2":str, "inplace":bool, "output_column":str, "precision": int}
         if schema_params(required_params, operation_params):
           return True
         else:
           raise Exception("Either parameter column_name is not present or given more parameters")
       else:
-        required_params = {"column_name1":str, "column_name2":str, "inplace":bool}
+        required_params = {"column_name1":str, "column_name2":str, "inplace":bool, "precision": int}
         if schema_params(required_params, operation_params):
           return True
         else:
@@ -218,13 +322,13 @@ class DivideColumnsOperation(SimpleOperation):
 
     if operation_params.get("inplace") != None:
       if operation_params["inplace"] == False:
-        required_params = {"column_name1":str, "column_name2":str, "inplace":bool, "output_column":str}
+        required_params = {"column_name1":str, "column_name2":str, "inplace":bool, "output_column":str, "precision": int}
         if schema_params(required_params, operation_params):
           return True
         else:
           raise Exception("Either parameter column_name is not present or given more parameters")
       else:
-        required_params = {"column_name1":str, "column_name2":str, "inplace":bool}
+        required_params = {"column_name1":str, "column_name2":str, "inplace":bool, "precision": int}
         if schema_params(required_params, operation_params):
           return True
         else:
@@ -335,7 +439,11 @@ class SplitColumnOperation(SimpleOperation):
 class JoinTableOperation(ComplexOperation):
 
   def validate_params(operation_params: dict) -> bool:
-    return True
+
+    required_params = {"table1":str, "table2":str, "left_on":str, "right_on":str, "type":str}
+    if schema_params(required_params, operation_params):
+      return True
+    return Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
 
   def run(operation_params: dict, inp_dd: data.DataDict):
     dt1 = inp_dd.fetch_dt(operation_params["table1"])
@@ -346,3 +454,85 @@ class JoinTableOperation(ComplexOperation):
         dt2.fetch_table(), left_on=operation_params["left_on"], right_on=operation_params["right_on"], how=operation_params["type"]))
     return dt
     
+class AddVariableOperation(ComplexOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+
+    required_params = {"table_name": str, "column_name": str, "variable": str}
+
+    if schema_params(required_params, operation_params):
+      return True
+    else:
+      raise Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+
+  def run(operation_params: dict, inp_dd: data.DataDict):
+    df = inp_dd.fetch_dt(operation_params["table_name"]).fetch_table()
+
+    value = inp_dd.fetch_dt(operation_params["variable"]).fetch_table()
+    df[operation_params["column_name"]] = df[operation_params["column_name"]].apply(lambda x: x + value)
+
+    dt = data.DataTable(operation_params["table_name"], df)
+    return dt
+
+
+class SubVariableOperation(ComplexOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+
+    required_params = {"table_name": str, "column_name": str, "variable": str}
+
+    if schema_params(required_params, operation_params):
+      return True
+    else:
+      raise Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+
+  def run(operation_params: dict, inp_dd: data.DataDict):
+    df = inp_dd.fetch_dt(operation_params["table_name"]).fetch_table()
+
+    value = inp_dd.fetch_dt(operation_params["variable"]).fetch_table()
+    df[operation_params["column_name"]] = df[operation_params["column_name"]].apply(lambda x: x - value)
+
+    dt = data.DataTable(operation_params["table_name"], df)
+    return dt
+
+class MultiplyVariableOperation(ComplexOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+
+    required_params = {"table_name": str, "column_name": str, "variable": str}
+
+    if schema_params(required_params, operation_params):
+      return True
+    else:
+      raise Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+
+  def run(operation_params: dict, inp_dd: data.DataDict):
+    df = inp_dd.fetch_dt(operation_params["table_name"]).fetch_table()
+
+    value = inp_dd.fetch_dt(operation_params["variable"]).fetch_table()
+    df[operation_params["column_name"]] = df[operation_params["column_name"]].apply(lambda x: x*value)
+
+    dt = data.DataTable(operation_params["table_name"], df)
+    return dt
+
+class AppendTablesOperation(ComplexOperation):
+
+  def validate_params(operation_params: dict) -> bool:
+    required_params = {"input_tables":list, "output_name":str}
+    if schema_params(required_params, operation_params):
+      return True
+    return Exception("Either one of the parameters are missing or the mentioned parameter(s) not required by this operation")
+
+  def run(operation_params: dict, inp_dd: data.DataDict):
+
+    df = inp_dd.fetch_dt(operation_params["input_tables"][0]).fetch_table()
+
+    for i in range(1, len(operation_params["input_tables"])):
+      df2 = inp_dd.fetch_dt(operation_params["input_tables"][i]).fetch_table()
+      df = df.append(df2, ignore_index = True)
+
+    dt = data.DataTable(operation_params["output_name"], df)
+    return dt
