@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Testing') {
             steps {
-                sh 'cd pipeline_creation; python manage.py test; cd ../pipeline_creation; python manage.py test;'
+                sh 'cd pipeline_creation; python manage.py test; cd ../pipeline_execution; python manage.py test; python operations_test.py;'
             }
         }
         stage('Django check') {
